@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+
+host = 'localhost'
+port = 6379
+project_path = '/home/mev/tp/src/'

@@ -1,0 +1,98 @@
+html,body{
+	margin:0;
+	display:block;
+}
+
+.container{
+	width:1000px;
+	margin:50px auto ;	
+}
+.container table{
+	font: 12px Arial;
+	width:100%;	
+	border-collapse: collapse;
+	border-top: 1px #ccc solid;
+	border-bottom: 1px #ccc solid;
+}
+.container table thead th {
+	border-bottom: 1px #ccc solid;
+
+}
+.container table td{
+	padding:5px 10px;
+	text-align: center;
+	
+}
+.container table th > a{
+	display:block;
+	text-align:left;
+	text-decoration: none;
+}
+.container table td div a{
+	float:right;
+}
+.container table td:nth-child(3){
+	text-align:center;	
+}
+.container table tr:nth-child(2n){
+	background:#EDF3FE;
+}
+.container table td{
+	border-right: 1px #ccc solid;
+}
+.container table th{
+	border-left: 1px #ccc solid;
+	border-right: 1px #ccc solid;
+	padding:5px 10px;
+	text-align: left!important;	
+}
+
+.container .field th {
+    min-width: 200px;
+}
+
+.container .field td {
+    text-align: left;
+    width: 100%;
+}
+
+.field td pre {
+    margin: 0;
+}
+
+.field-note {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: #777;
+}
+
+ a{
+	color:#5B80B2;	
+}
+
+.menu {
+	background: #7CA0C7;	
+}
+.menu li{
+	list-style: none;	
+	padding:5px 20px;
+	display:inline-block;
+}
+.menu li a{
+	color:#fff;
+	font:bold 13px Arial;	
+	line-height: 20px;
+	text-decoration: none;
+}
+.menu li a:hover{
+	color:yellow;
+}
+
+.warning {
+    background: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+    font-weight: bold;
+    padding: 15px 10px;
+    margin-bottom: 20px;
+}

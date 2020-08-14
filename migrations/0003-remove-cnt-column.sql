@@ -1,0 +1,3 @@
+BEGIN;
+ALTER TABLE `tp_product` DROP COLUMN `cnt`;
+COMMIT;

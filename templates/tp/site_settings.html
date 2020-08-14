@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4 style="margin: 5px 0;">Настройки сайта {{ site.name }}</h4>
+<a href="/tp/site/{{ site.id }}">Вернуться к сайту</a>
+<br /><br />
+<form method="post">
+  {% csrf_token %}
+  {% if error %}
+  <div class="warning">{{ error }}</div>
+  {% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 200px;">Название</th>
+        <th>Значение</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="field">
+        <th style="width: 200px;">Ссылка</th>
+        <td><input type="text" name="url" value="{{ url }}" style="width: 100%"></td>
+      </tr>
+      <tr class="field">
+        <th style="width: 200px;">Прокси</th>
+        <td>
+          <input type="text" name="proxy" value="{{ proxy }}" style="width: 100%">
+          <div class="field-note">логин:пароль@адрес_прокси:порт</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br />
+  <input type="submit" value="Сохранить">
+</form>
+<br />
+<br />
+<h3>Доступные прокси</h3>
+<table>
+  <thead>
+    {% for proxy in available_proxies %}
+    <tr><th>{{ proxy }}</th></tr>
+    {% endfor %}
+  </thead>
+</table>
+
+{% endblock %}

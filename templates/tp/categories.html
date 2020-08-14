@@ -1,0 +1,36 @@
+{% extends 'base.html'%}
+{% block content %}
+    <h4 style="margin:5px 0;">Сайт «{{ site.name }}» ({{ c|length}})</h4>
+    <a href="/tp/site/">Вернуться к списку сайтов</a>
+    <br>
+    <a onclick="if( confirm('Эта операция займет 1 - 4 часов. Вы уверены?') == false) return false;" href="/tp/site/{{ site.id }}/refresh/">Обновить все</a>
+    <br>
+    <a href="/tp/site/{{ site.id }}/settings">Настройки</a>
+    <br/>
+    <a style="float: right;"  href="/tp/full-price/{{ site.id }}/">Скачать прайс-лист для «{{ site.name }}»</a>
+    <br>
+    <a style="float: right;" href="/tp/full-price/{{ site.id }}/?format=csv">Скачать прайс-лист для «{{ site.name }}» (CSV)</a>
+    <div>
+        Выберите категорию для сравнения цен.
+    </div>
+    <br>
+    <table>
+        <thead>
+
+            <th>Название<form style="display: inline; margin-left: 20px;" method="GET"><input type="text" name="name" value="{{name}}"><input type="submit" style="display:none;"></form></th>
+            <th>Кол-во товаров</th>
+            <th>Ссылка</th>
+            <th>Дата последнего обновления</th>
+        </thead>
+        {% for item in c %}
+            <tr>
+                <th><a href="/tp/category/{{ item.id }}/">{{ item.name}}</a></th>
+                <th>{{item.products.select_related|length }}</th>
+                <td><a target="_blank" href="{{ item.url }}">{{ item.url }}</a></td>
+                <td>
+                    <div>{{ item.update}}<a onclick="if( confirm('Эта операция может занять несколько минут. Вы уверены?') == false) return false;" href="/tp/refresh/{{item.id}}/">Обновить</a></div>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

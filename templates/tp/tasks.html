@@ -1,0 +1,59 @@
+{% extends 'base.html'%}
+{% block content %}
+<h4 style="margin:5px 0;">{{ name }}</h4>
+<a href="/tp/tasks/">Активные задачи</a>
+</br>
+<a href="/tp/tasks/archive/">Архив задач</a>
+</br></br>
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>Задача</th>
+      <th>Статус</th>
+      <th>Создана</th>
+      <th>Запущена</th>
+      <th>Завершена</th>
+      <th>Последняя активность</th>
+      {% if show_controls %}
+      <th>Запустить</th>
+      <th>Отменить</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in tasks %}
+    <tr>
+      <th>{{ item.id }}</th>
+      <th><a href="{{ item.url }}">{{ item.name }}</a></th>
+      <td>{{ item.status }}</td>
+      <td>{{ item.created }}</td>
+      <td>{{ item.started }}</td>
+      <td>{{ item.finished }}</td>
+      <td>{{ item.last_activity }}</td>
+      {% if show_controls %}
+      <th>
+        <form action="/tp/tasks/start/" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="id" value="{{ item.id }}">
+          <input type="hidden" name="path" value="{{ path }}">
+          <input type="submit" value="Запустить">
+        </form>
+      </th>
+      <th>
+        <form action="/tp/tasks/stop/" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="id" value="{{ item.id }}">
+          <input type="hidden" name="path" value="{{ path }}">
+          <input type="submit" value="Отменить">
+        </form>
+      </th>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<br><br>
+
+{% endblock %}

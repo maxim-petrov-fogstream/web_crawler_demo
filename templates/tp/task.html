@@ -1,0 +1,51 @@
+{% extends 'base.html'%}
+{% block content %}
+<h4 style="margin:5px 0;">{{ name }}</h4>
+<a href="/tp/tasks/">Вернуться к списку задач</a>
+</br></br>
+<table>
+  <tr class="field"><th>Исходные данные</th><td><pre>{{ data }}</pre></td></tr>
+  <tr class="field"><th>Статус</th><td>{{ status }}</td></tr>
+  <tr class="field"><th>Источник</th><td>{{ source }}</td></tr>
+  <tr class="field"><th>Создана</th><td>{{ created }}</td></tr>
+  <tr class="field"><th>Запущена</th><td>{{ started }}</td></tr>
+  <tr class="field"><th>Завершена</th><td>{{ finished }}</td></tr>
+  <tr class="field"><th>Последнее изменение</th><td>{{ report.last_activity }}</td></tr>
+  <tr class="field"><th>Процесс</th><td>{{ process }}</td></tr>
+  {% if report %}
+  <tr class="field"><th>Запросов</th><td>{{ report.requests }}</td></tr>
+  <tr class="field"><th>Передано данных</th><td>{{ report.bytes_transferred }}</td></tr>
+  <tr class="field"><th>Категорий (сырые)</th><td>{{ report.raw_categories }}</td></tr>
+  <tr class="field"><th>Товаров (сырые)</th><td>{{ report.raw_products }}</td></tr>
+  <tr class="field"><th>Последние запросы</th><td>
+      <pre>{% for r in report.last_requests %}{{ r.time }} {{ r.result }} {{ r.url }}
+{% endfor %}</pre>
+  </td></tr>
+  <tr class="field"><th>Категории с ошибками</th><td>
+      {% if report.error_categories %}
+      <form action="/tp/tasks/restart-errors/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ id }}">
+        <input type="submit" value="Обновить категории">
+      </form>
+      {% endif %}
+      <pre>{% for x in report.error_categories %}{{ x.1 }} ({{ x.0 }})
+{% endfor %}</pre>
+  </td></tr>
+  <tr class="field"><th>Ошибок</th><td>{{ report.total_errors }}</td></tr>
+  <tr class="field"><th>Ошибок запросов</th><td>{{ report.request_errors }}</td></tr>
+  <tr class="field"><th>Последние ошибки</th><td>
+      <pre>{% for r in report.last_errors %}{{ r.time }} {{ r.short }}
+{{ r.info }}
+
+{% endfor %}{% if report.stacktrace or report.error %}{% if report.last_errors %}
+
+{% endif %}{{ report.error }}
+{{ report.stacktrace }}{% endif %}</pre>
+  </td></tr>
+  {% endif %}
+</table>
+
+<br><br>
+
+{% endblock %}

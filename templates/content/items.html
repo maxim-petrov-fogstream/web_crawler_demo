@@ -1,0 +1,67 @@
+{% extends 'base.html'%}
+
+{% block title %}<h1>Контент</h1>{% endblock %}
+{% block menu %}
+	<li><a href="/content/">Товары</a></li>
+	<li><a href="/content/items">Очередь</a></li>
+{% endblock %}
+
+{% block content %}
+    <h4 style="margin:5px 0;">Всего {{ p|length }}</h4>
+    <br>
+    <div>
+        Для каждого товара введите ссылку на страницу с описанием, картинками из <a target="_blank" href="http://market.yandex.ru">market.yandex.ru</a>
+        <br>
+        <span style="font-size:11px;">например http://market.yandex.ru/model.xml?modelid=7717686&hid=91491&int_lnk=p-goods-img</span>
+    </div>
+	
+	<br><br>
+		<form method="post" action="/content/getchars">
+			<input type="submit" class="saveall" value="Скачать все">
+			<input type="hidden" class="params" name="params">
+		</form>
+		<a class="itemall" style="float:right;margin-top:-20px;" href="javascript:void(0)">Убрать из очереди все</a>
+		<table>
+			<thead>				
+				<th>ID</th>
+				<th>Название</th>						
+				<th>Ссылка</th>
+				<th></th>	
+				<th></th>		
+			</thead>
+			{% for item in p %}
+				<tr>		
+					<form method="POST" action="/content/getchar/{{ item.pid.id }}">			
+						<td>{{ item.pid.sku }}</td>
+						<th>{{ item.pid.name}}</th>	
+						<td><input class="url" type="text" required aid="{{item.id}}" name="url" value="{{item.url}}"></td>
+						<td><input type="submit" value="Скачать характеристики"></td>
+						<td><a class="item" href="/content/parsing/{{ item.pid.id }}">Убрать из очереди</a></td>
+					</form>
+				</tr>
+			{% endfor %}
+		</table>
+	
+
+	<script>
+		$('.item').click(function()
+		{			
+			$.get( $(this).attr('href'));
+			$(this).parent().parent().remove();		
+			return false;
+		});
+		$('.saveall').click(function()
+		{
+			var param = '';
+			$('.url').each(function(i)
+			{
+				param += $(this).attr('aid')+','+$(this).val()+';'
+			});
+			$('.params').val(param)
+		});
+		$('.itemall').click(function()
+		{
+		    $('.item').click();
+		})
+	</script>
+{% endblock %}	

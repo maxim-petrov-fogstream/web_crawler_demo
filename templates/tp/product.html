@@ -1,0 +1,36 @@
+{% extends 'base.html'%}
+{% block content %}
+    <h4 style="margin:5px 0;">{{ p.name }} ( {{ s|length}} )</h4>
+    <a href="/tp/category/{{ p.cid.id }}">Вернуться к {{ p.cid.name }}</a>
+    <br><br>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="6" style="text-align: center!important;">Товар из ТП</th>
+            </tr>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Кол-во</th>
+                <th>Цена</th>
+                <th>Цена со скидкой</th>
+                <th>Заказ</th>
+            </tr>
+        </thead>
+        <tr>
+            <th>{{ p.id }}</th>
+            <th>{{ p.name }}</th>
+            <td>{{ p.qty }}</td>
+            <td>{{ p.price }}</td>
+            {% if p.second_price %}
+            <td>{{ p.second_price }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+            <td>{{ p.request_line }}</td>
+        </tr>
+    </table>
+
+    <br><br>
+
+{% endblock %}

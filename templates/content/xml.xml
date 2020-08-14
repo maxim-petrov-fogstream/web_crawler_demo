@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<products>
+	{% for p in products %}
+		<product>
+			<id>{{ p.0 }}</id>
+			<productname>{{ p.1 }}</productname>
+			<images>
+				{% for img in p.2 %}
+					<image>{{ img }}</image>
+				{% endfor %}
+			</images>	
+			<groups>
+				{% for g in p.3 %}
+					<group>
+						<groupname>{{ g.0 }}</groupname>
+						<characters>
+							{% for c in g.1 %}
+								<character>
+									<charactername>{{c.0}}</charactername>
+									<charactervalues>
+										{% for v in c.1 %}
+											<charactervalue>{{v}}</charactervalue>
+										{% endfor %}
+									</charactervalues>
+								</character>
+							{% endfor %}
+						</characters>
+					</group>
+				{% endfor %}
+			</groups>
+		</product>
+	{% endfor %}	
+</products>

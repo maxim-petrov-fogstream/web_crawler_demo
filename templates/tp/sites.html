@@ -1,0 +1,20 @@
+{% extends 'base.html'%}
+{% block content %}
+    <h4 style="margin:5px 0;">Список сайтов</h4>
+    <a href="/tp/settings">Список прокси</a>
+    <br /><br />
+    <table>
+      <thead>
+        <th>Название</th>
+        <th>Ссылка</th>
+        <th>Настройки</th>
+      </thead>
+      {% for site in sites %}
+        <tr>
+          <th><a href="/tp/site/{{ site.id }}">{{ site.name }}</a></th>
+          <td><a target="_blank" href="{{ site.url }}">{{ site.url }}</a></td>
+          <th><a href="/tp/site/{{ site.id }}/settings">Настройки ({{ site.name}})</a></th>
+        </tr>
+      {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'base.html'%}
+{% block title %}<h1>Контент</h1>{% endblock %}
+{% block menu %}
+	<li><a href="/content/">Товары</a></li>
+	<li><a href="/content/items">Очередь</a></li>
+{% endblock %}
+
+{% block content %}
+	<h4 style="margin:5px 0;">Всего {{ cnt }}</h4>    <br>
+    <div>
+        Товары для которых нужны характеристи, добавьте в очередь 
+    </div>
+	<br><br>
+	
+	<ul>
+		{% if f_ok == 1 %}
+			<li style="display: inline-block;">
+				<a href="?page=0&name={{name}}">1</a> ... 
+			</li>	
+		{% endif %}
+		{% for i in pager %}
+			<li style="display: inline-block;">
+				<a {% if page == i.0 %}style="color:#fff; background:#5B80B2;"{% endif %} href="?page={{i.0}}&name={{name}}">{{ i.1 }}</a>
+			</li>
+		{% endfor %}
+		{% if l_ok == 1 %}
+			<li style="display: inline-block;">
+				 ... <a href="?page={{cnt_page.0}}&name={{name}}">{{ cnt_page.1 }}</a> 
+			</li>	
+		{% endif %}
+	</ul>
+	<form style="display: inline; margin-left: 20px;" method="GET">
+		<table>
+			<thead>				
+				<th>ID</th>
+				<th>Название<input type="text" name="name" value="{{name}}"><input type="submit" style="display:none;"></th>	
+				<th></th>		
+			</thead>
+			{% for item in p %}
+				<tr>					
+					<td>{{ item.sku }}</td>
+					<th>{{ item.name}}</th>	
+					<td><a class="item" href="/content/parsing/{{ item.id }}">
+					{% if item.parse_url.select_related|length > 0 %}	
+						Убрать из очереди
+					{% else %}
+						Добавить в очередь
+					{% endif %}	
+					</a></td>
+				</tr>
+			{% endfor %}
+		</table>
+	</form>
+	
+	<ul>
+		{% if f_ok == 1 %}
+			<li style="display: inline-block;">
+				<a href="?page=0&name={{name}}">1</a> ... 
+			</li>	
+		{% endif %}
+		{% for i in pager %}
+			<li style="display: inline-block;">
+				<a {% if page == i.0 %}style="color:#fff; background:#5B80B2;"{% endif %} href="?page={{i.0}}&name={{name}}">{{ i.1 }}</a>
+			</li>
+		{% endfor %}
+		{% if l_ok == 1 %}
+			<li style="display: inline-block;">
+				 ... <a href="?page={{cnt_page.0}}&name={{name}}">{{ cnt_page.1 }}</a> 
+			</li>	
+		{% endif %}
+	</ul>	
+	<script>
+		$('.item').click(function()
+		{
+			var a = $(this);			
+			$.get( a.attr('href'), function(data)
+			{
+				a.text(data);
+			});		
+			return false;
+		});
+	</script>
+{% endblock %}	

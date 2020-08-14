@@ -1,0 +1,47 @@
+{% extends 'base.html'%}
+{% block content %}
+    <h4 style="margin:5px 0;">Всего {{ categories|length }}</h4>
+    <div>Выберите категории товаров, которые попадут в прайс-лист.</div>
+    <br>
+    <form id="selector-form" method="post">
+    <input type="hidden" name="format" value="{{ format }}" />
+    <p><input type="submit" value="Скачать прайс-лист"/></p>
+    <table>
+        <thead>
+            <th><input id="switcher" type="checkbox" checked="on"/></th>
+            <th>Название</th>
+            <th>Кол-во товаров</th>
+            <th>Ссылка</th>
+            <th>Дата последнего обновления</th>
+        </thead>
+        <tbody>
+        {% for item in categories %}
+            <tr>
+                <td><input class="cat-selector" name="add{{ item.id }}" type="checkbox" checked="on"/></td>
+                <th><a href="/tp/category/{{ item.id }}/">{{ item.name }}</a></th>
+                <th>{{ item.products.all|length }}</th>
+                <td><a target="_blank" href="{{ item.url }}">{{ item.url }}</a></td>
+                <td>
+                    <div>{{ item.update }}
+                        <a onclick="if( confirm('Эта операция может занять несколько минут. Вы уверены?') == false) return false;"
+                            href="/tp/refresh/{{ item.id }}/">Обновить</a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </form>
+    <script type="text/javascript">
+        document.ready = function() {
+            var switcher = document.getElementById("switcher");
+            switcher.onclick = function() {
+                var checkers = document.getElementsByClassName("cat-selector");
+                for (var i = 0; i < checkers.length; ++i) {
+                    checkers[i].checked = this.checked;
+                }
+                return true;
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html'%}
+{% block content %}
+    <div>
+        <h4 style="margin:5px 0;">{{ c.name }} ( {{ p|length}} )</h4>
+        <a href="/tp/site/{{ c.site.id }}">Вернуться к категориям</a>
+    <div>
+    <div>
+        <a href="/tp/category/{{ c.id }}/price">Скачать прайс для категории «{{ c.name }}»</a>
+    </div>
+    <div>
+        <a href="/tp/category/{{ c.id }}/price?format=csv">Скачать прайс для категории «{{ c.name }}» (CSV)</a>
+    </div>
+    <div style="float:left;width: 600px;"><br><br>
+        Выберите товар для просмотра.<br><br>
+    </div>
+    <br><br>
+    <table>
+        <thead>
+            <th>ID на сайте</th>
+            <th>Название<form style="display: inline; margin-left: 20px;" method="GET"><input type="text" name="name" value="{{name}}"><input type="submit" style="display:none;"></form></th>
+            <th>Кол-во товаров</th>
+            <th>Цена</th>
+            <th>Цена со скидкой</th>
+            <th>Заказ</th>
+        </thead>
+        <tbody>
+        {% for item in p %}
+            <tr>
+                <th>{{ item.tpid }}</th>
+                <th><a href="/tp/product/{{ item.id }}">{{ item.name }}</a></th>
+                <td>{{ item.qty }}</td>
+                <td>{{ item.price }}</td>
+                {% if item.second_price %}
+                <td>{{ item.second_price }}</td>
+                {% else %}
+                <td></td>
+                {% endif %}
+                {% if item.request_line %}
+                <td>{{ item.request_line }}</td>
+                {% else %}
+                <td>{% if item.request_only %}Да{% endif %}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
